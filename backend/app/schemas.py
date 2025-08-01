@@ -35,7 +35,7 @@ class User(UserBase):
 class TaskBase(BaseModel):
     title: str = Field(..., min_length=1, max_length=255)
     description: Optional[str] = None
-    priority: Optional[str] = Field("medium", regex="^(low|medium|high)$")
+    priority: Optional[str] = Field("medium", pattern="^(low|medium|high)$")
     due_date: Optional[datetime] = None
 
 
@@ -47,7 +47,7 @@ class TaskUpdate(BaseModel):
     title: Optional[str] = Field(None, min_length=1, max_length=255)
     description: Optional[str] = None
     completed: Optional[bool] = None
-    priority: Optional[str] = Field(None, regex="^(low|medium|high)$")
+    priority: Optional[str] = Field(None, pattern="^(low|medium|high)$")
     due_date: Optional[datetime] = None
 
 

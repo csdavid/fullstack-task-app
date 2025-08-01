@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy import and_, or_, desc, asc
-from models import User, Task
-from schemas import UserCreate, UserUpdate, TaskCreate, TaskUpdate
+from app.models import User, Task
+from app.schemas import UserCreate, UserUpdate, TaskCreate, TaskUpdate
 
 class UserRepository:
     def __init__(self, session: AsyncSession):
@@ -71,7 +71,7 @@ class TaskRepository:
     async def get_by_id(self, task_id: int) -> Optional[Task]:
         result = await self.session.execute(
             select(Task)
-            options(selectinload(Task.owner))
+            .options(selectinload(Task.owner))
             .where(Task.id == task_id)
         )
         return result.scalar_one_or_none()
@@ -80,7 +80,7 @@ class TaskRepository:
             self,
             owner_id: int, 
             skip: int = 0,
-            limit: init = 100,
+            limit: int = 100,
             completed: Optional[bool] = None,
             priority: Optional[str] = None,
             search: Optional[str] = None
